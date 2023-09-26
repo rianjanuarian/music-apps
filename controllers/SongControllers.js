@@ -13,14 +13,15 @@ class SongControllers {
 
   static async create(req, res) {
     try {
-      const { name,artistId, duration, album, image } = req.body;
+        
+      const { name, artistId, duration, album, image } = req.body;
       let resSong = await song.create({
         name,
         artistId,
         duration,
         album,
         image,
-      },);
+      });
       res.json(resSong);
     } catch (error) {
       res.json(error);
@@ -50,6 +51,7 @@ class SongControllers {
       let result = await song.update(
         {
           name,
+  
           duration,
           album,
           image,
@@ -67,20 +69,42 @@ class SongControllers {
       res.json(error);
     }
   }
+  static async createArtist(req, res) {
+    try {
+      const id = +req.params.id;
+      const { name, duration, album, image } = req.body;
+      let resSong = await song.create(
+        {
+          name,
+          artistId : id,
+          duration,
+          album,
+          image,
+        }
+      );
+       let resSongArtist = await songArtist.create({
+        artistId: id,
+        songId: resSong.id,
+      });
+      res.json(resSong);
+    } catch (error) {
+      res.json(error);
+    }
+  }
 
   static async createPage(req, res) {
     try {
-        const id = +req.params.id;
-  
-        let result = await song.findAll({
-          where: { id },
-        });
-        // res.render("../views/brand/editbrand.ejs", { brand: result });
-      } catch (error) {
-        res.json(error);
-      }
+      const id = +req.params.id;
+
+      let result = await song.findAll({
+        where: { id },
+      });
+      // res.render("../views/brand/editbrand.ejs", { brand: result });
+    } catch (error) {
+      res.json(error);
     }
-  
+  }
+
   static updatePage(req, res) {}
 }
 

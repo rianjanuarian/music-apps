@@ -13,6 +13,12 @@ class ArtistControllers {
 
   static async create(req, res) {
     try {
+      artist.beforeCreate((user, options) => {
+        console.log('Creating artist name :', user.name);
+      });
+      artist.afterCreate((user, options) => {
+        console.log('Artist successfully created with ID :', user.id);
+      });
       const { name, genre, image } = req.body;
       let resArtist = await artist.create({
         name,
@@ -26,7 +32,9 @@ class ArtistControllers {
       //   artistId: resArtist.id,
       //   songId: resSong.id,
       // });
+      
       res.json(resArtist);
+ 
     } catch (error) {
       res.json(error);
     }

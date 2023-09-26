@@ -1,7 +1,5 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class artist extends Model {
     /**
@@ -16,13 +14,31 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
   }
-  artist.init({
-    name: DataTypes.STRING,
-    genre: DataTypes.STRING,
-    image: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'artist',
-  });
+  artist.init(
+    {
+      name: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: {
+            msg: "Name cannot be empty",
+          },
+        },
+      },
+
+      genre: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: {
+            msg: "Genre cannot be empty",
+          },
+        },
+      },
+      image: DataTypes.STRING,
+    },
+    {
+      sequelize,
+      modelName: "artist",
+    }
+  );
   return artist;
 };
