@@ -6,7 +6,27 @@ class songArtistControllers {
         include: [artist, song],
         order: [["id", "asc"]],
       });
-      res.json(result);
+      
+      let artistsWithSongs = {};
+      result.map(songArtist => {
+        const artistName = songArtist.artist.name; 
+        const artistGenre = songArtist.artist.genre
+        const artistImage = songArtist.artist.image
+        const songData = songArtist.song.dataValues;
+        if (!artistsWithSongs[artistName]) {
+          artistsWithSongs[artistName] = {
+            name: artistName,
+            genre : artistGenre,
+            image : artistImage,
+            songs: [songData],
+          };
+        } else {
+          artistsWithSongs[artistName].songs.push(songData);
+        }
+      })
+      const resSong = Object.values(artistsWithSongs)
+
+      res.json(resSong);
     } catch (error) {
       res.json(error);
     }
