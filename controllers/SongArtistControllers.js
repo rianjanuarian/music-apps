@@ -6,18 +6,20 @@ class songArtistControllers {
         include: [artist, song],
         order: [["id", "asc"]],
       });
-      
+
       let artistsWithSongs = {};
       result.map(songArtist => {
         const artistName = songArtist.artist.name; 
         const artistGenre = songArtist.artist.genre
         const artistImage = songArtist.artist.image
+        const artistIds = songArtist.artistId
         const songData = songArtist.song.dataValues;
         if (!artistsWithSongs[artistName]) {
           artistsWithSongs[artistName] = {
             name: artistName,
             genre : artistGenre,
             image : artistImage,
+            artistId : artistIds,
             songs: [songData],
           };
         } else {
