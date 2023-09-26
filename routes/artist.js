@@ -8,4 +8,6 @@ artistRoutes.get("/delete/:id", ArtistControllers.delete);
 artistRoutes.post("/update/:id", ArtistControllers.update);
 artistRoutes.get("/update/:id", ArtistControllers.updatePage);
 
+artistRoutes.get("/:id/song", ArtistControllers.getArtistSong);
+
 module.exports = artistRoutes;

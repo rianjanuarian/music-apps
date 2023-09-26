@@ -20,12 +20,12 @@ class ArtistControllers {
         image,
       });
       let resSong = await song.create({
-        songId : resArtist.id
-      })
-      let resSongArtist = await songArtist.create({
-        artistId : resArtist.id,
-        songId : resSong.id
-      })
+        artistId: resArtist.id,
+      });
+      // let resSongArtist = await songArtist.create({
+      //   artistId: resArtist.id,
+      //   songId: resSong.id,
+      // });
       res.json(resArtist);
     } catch (error) {
       res.json(error);
@@ -63,6 +63,28 @@ class ArtistControllers {
       resArtist[0] === 1
         ? res.json({ message: `${id} has been updateds` })
         : res.json({ message: `${id} has not updated` });
+    } catch (error) {
+      res.json(error);
+    }
+  }
+  static async getArtistSong(req, res) {
+    try {
+      const id = +req.params.id;
+      let result = await songArtist.findAll({
+        where: {
+          artistId: id,
+        },
+        include: [song, artist],
+      });
+      let songs = result.map((e) => {
+        return e.song.dataValues;
+      });
+      let resSongArtist = {
+        ...result[0].artist.dataValues,
+        songs,
+      };
+
+      res.json(resSongArtist);
     } catch (error) {
       res.json(error);
     }

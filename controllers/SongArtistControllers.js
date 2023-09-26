@@ -6,9 +6,9 @@ class songArtistControllers {
         include: [artist, song],
         order: [["id", "asc"]],
       });
-      res.json(result)
+      res.json(result);
     } catch (error) {
-      res.json(error)
+      res.json(error);
     }
   }
 

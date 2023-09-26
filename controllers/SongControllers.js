@@ -13,13 +13,14 @@ class SongControllers {
 
   static async create(req, res) {
     try {
-      const { name, duration, album, image } = req.body;
+      const { name,artistId, duration, album, image } = req.body;
       let resSong = await song.create({
         name,
+        artistId,
         duration,
         album,
         image,
-      });
+      },);
       res.json(resSong);
     } catch (error) {
       res.json(error);
@@ -35,8 +36,8 @@ class SongControllers {
         },
       });
       result === 1
-      ? res.json(`${id} successfully deleted`)
-      : res.json(`${id} error delete`);
+        ? res.json(`${id} successfully deleted`)
+        : res.json(`${id} error delete`);
     } catch (error) {
       res.json(error);
     }
@@ -44,24 +45,42 @@ class SongControllers {
 
   static async update(req, res) {
     try {
-        const id = +req.params.id;
-        const { name, duration, album, image } = req.body;
-        let result = await song.update({
-            name ,duration,album,image
-        },{
-            where:{
-                id
-            }
-        })
-        result[0] === 1
+      const id = +req.params.id;
+      const { name, duration, album, image } = req.body;
+      let result = await song.update(
+        {
+          name,
+          duration,
+          album,
+          image,
+        },
+        {
+          where: {
+            id,
+          },
+        }
+      );
+      result[0] === 1
         ? res.json(`${id} has been updated`)
         : res.json(`${id} has not been updated`);
     } catch (error) {
-        res.json(error)
+      res.json(error);
     }
   }
 
-  static createPage(req, res) {}
+  static async createPage(req, res) {
+    try {
+        const id = +req.params.id;
+  
+        let result = await song.findAll({
+          where: { id },
+        });
+        // res.render("../views/brand/editbrand.ejs", { brand: result });
+      } catch (error) {
+        res.json(error);
+      }
+    }
+  
   static updatePage(req, res) {}
 }
 
