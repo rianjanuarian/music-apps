@@ -8,10 +8,10 @@
     integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 <body>
-    <h2>Artist Page</h2>
+    <h2>Songs Page</h2>
     <div>
-        <a href="/artist/create" type="button" class="btn btn-primary btn-lg">Add New Artist<a></a>
-        <a href="/song" type="button" class="btn btn-primary btn-lg">Song Page<a></a>
+      
+     
     </div>
     <br>
     <div class="container-fluid">
@@ -21,30 +21,32 @@
                 <th scope="col">No.</th>
                 <th scope="col">Image</th>
                 <th scope="col">Name</th>
-                <th scope="col">Genre</th>
+                <th scope="col">Album</th>
              
                 <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
-                <% artists.forEach((e,index )=> { %> 
+                <% result.forEach((e )=> { %> 
+                    
                     <tr>
-                    <th scope="row"><%= index + 1 %></th>
-                    <% if(e.image === null || e.image === "" ) { %>
-                        <td>no image</td>
-                        <% } else { %>
-                        <td><img src="<%= e.image %>" height="100px" width="100px" /></td>
-                        <% } %> 
-                    <td><%= e.name %></td>
-                    <td><%= e.genre %></td>
-                 
+                        <% e.songs.forEach((el,index) => { %>
+                            <tr>
+                            <th scope="row"><%= index + 1 %></th>
+                            <td><img src="<%= el.image %>" height="100px" width="100px" /></td>
+                            <td><%= el.name %></td>
+                            <td><%= el.album %></td>
+                            <td><a href="/song/delete/<%= el.id %>" type="button"  onclick="deleteAlert(`<%= el.name %>`)" class="btn btn-outline-primary">Delete</a>
+
+                              </td>
+                            <%  }) %>
+                    
+
                    
                     <!-- <td><%= e.age %></td>
                     <td><%= e.city %></td> -->
                     
-                    <td><a href="/artist/delete/<%= e.id %>" type="button"  onclick="deleteAlert(`<%= e.name %>`)" class="btn btn-outline-primary">Delete</a>
-                    <a href="/artist/update/<%= e.id %>" type="button" class="btn btn-outline-primary">Update</a>
-                  </td>
+                    
                     <%  })  %> 
                     
                 </tr>

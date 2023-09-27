@@ -1,5 +1,5 @@
 const { artist, song, songArtist } = require("../models");
-class songArtistControllers {
+class IndexControllers {
   static async getData(req, res) {
     try {
       let result = await songArtist.findAll({
@@ -30,7 +30,7 @@ class songArtistControllers {
 
       const accept = req.get("Accept");
       if (accept && accept.includes("text/html")) {
-        res.render("songArtist/songArtist.ejs", { resSong });
+        res.render("index.ejs", { resSong });
       } else {
         res.json(resSong);
       }
@@ -43,4 +43,4 @@ class songArtistControllers {
   static async create(req, res) {}
 }
 
-module.exports = songArtistControllers;
+module.exports = IndexControllers;

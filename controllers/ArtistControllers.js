@@ -3,9 +3,15 @@ class ArtistControllers {
   static async getData(req, res) {
     try {
       let result = await artist.findAll({
+       
         order: [["id", "asc"]],
       });
-      res.json(result);
+      const accept = req.get("Accept");
+      if (accept && accept.includes("text/html")) {
+        res.render(`artist/artist.ejs`, { artists: result });
+      } else {
+        res.json(result);
+      }
     } catch (err) {
       res.json(err);
     }
@@ -14,10 +20,10 @@ class ArtistControllers {
   static async create(req, res) {
     try {
       artist.beforeCreate((user, options) => {
-        console.log('Creating artist name :', user.name);
+        console.log("Creating artist name :", user.name);
       });
       artist.afterCreate((user, options) => {
-        console.log('Artist successfully created with ID :', user.id);
+        console.log("Artist successfully created with ID :", user.id);
       });
       const { name, genre, image } = req.body;
       let resArtist = await artist.create({
@@ -28,13 +34,13 @@ class ArtistControllers {
       let resSong = await song.create({
         artistId: resArtist.id,
       });
-      // let resSongArtist = await songArtist.create({
-      //   artistId: resArtist.id,
-      //   songId: resSong.id,
-      // });
-      
-      res.json(resArtist);
- 
+
+      const accept = req.get("Accept");
+      if (accept && accept.includes("text/html")) {
+        res.redirect("/artist");
+      } else {
+        res.json(resArtist);
+      }
     } catch (error) {
       res.json(error);
     }
@@ -46,9 +52,13 @@ class ArtistControllers {
       let resArtist = await artist.destroy({
         where: { id },
       });
-      resArtist === 1
-        ? res.json({ message: `${id} has been deleted` })
-        : res.json({ message: `${id} has not been deleted` });
+
+      const accept = req.get("Accept");
+      if (accept && accept.includes("text/html")) {
+        res.redirect("/artist");
+      } else {
+        res.json(resArtist);
+      }
     } catch (error) {
       res.json(error);
     }
@@ -68,9 +78,12 @@ class ArtistControllers {
           where: { id },
         }
       );
-      resArtist[0] === 1
-        ? res.json({ message: `${id} has been updateds` })
-        : res.json({ message: `${id} has not updated` });
+      const accept = req.get("Accept");
+      if (accept && accept.includes("text/html")) {
+        res.redirect("/artist");
+      } else {
+        res.json(resArtist);
+      }
     } catch (error) {
       res.json(error);
     }
@@ -92,14 +105,33 @@ class ArtistControllers {
         songs,
       };
 
-      res.json(resSongArtist);
+      const accept = req.get("Accept");
+      if (accept && accept.includes("text/html")) {
+        res.render(`artist/findartist.ejs`, { resSongArtist });
+      } else {
+        res.json(resSongArtist);
+      }
+      // res.json(resSongArtist);
     } catch (error) {
       res.json(error);
     }
   }
 
-  static createPage(req, res) {}
-  static updatePage(req, res) {}
+  static createPage(req, res) {
+    res.render("../views/artist/addArtist.ejs");
+  }
+
+  static async updatePage(req, res) {
+    try {
+      const id = +req.params.id;
+      let result = await artist.findAll({
+        where: { id },
+      });
+      res.render("../views/artist/editartist.ejs", { artists: result });
+    } catch (error) {
+      res.json(error);
+    }
+  }
 }
 
 module.exports = ArtistControllers;

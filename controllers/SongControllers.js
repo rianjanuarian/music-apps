@@ -2,32 +2,60 @@ const { artist, song, songArtist } = require("../models");
 class SongControllers {
   static async getData(req, res) {
     try {
-      let result = await song.findAll({
+      let result = await artist.findAll({
+        include: [song],
         order: [["id", "asc"]],
       });
-      res.json(result);
+
+      const accept = req.get("Accept");
+      if (accept && accept.includes("text/html")) {
+        res.render("song/song.ejs", { songs: result });
+      } else {
+        res.json(result);
+      }
+      // res.json(result);
     } catch (error) {
       res.json(error);
     }
   }
 
-  static async create(req, res) {
+  // static async create(req, res) {
+  //   try {
+  //     const { name, artistId, duration, album, image } = req.body;
+  //     let resSong = await song.create({
+  //       name,
+  //       artistId,
+  //       duration,
+  //       album,
+  //       image,
+  //     });
+  //     res.json(resSong);
+  //   } catch (error) {
+  //     res.json(error);
+  //   }
+  // }
+
+  static async deletePage(req, res) {
     try {
-        
-      const { name, artistId, duration, album, image } = req.body;
-      let resSong = await song.create({
-        name,
-        artistId,
-        duration,
-        album,
-        image,
+      const id = +req.params.id;
+      let result = await artist.findAll({
+       where : {id},
+        include: [song],
+
+        order: [["id", "asc"]],
       });
-      res.json(resSong);
+
+      const accept = req.get("Accept");
+      if (accept && accept.includes("text/html")) {
+        res.render("song/deleteSongs.ejs", { result });
+      } else {
+        res.json(result);
+      }
+      // res.json(result);
     } catch (error) {
       res.json(error);
     }
   }
-
   static async delete(req, res) {
     try {
       const id = +req.params.id;
@@ -36,9 +64,7 @@ class SongControllers {
           id,
         },
       });
-      result === 1
-        ? res.json(`${id} successfully deleted`)
-        : res.json(`${id} error delete`);
+      res.redirect("/song");
     } catch (error) {
       res.json(error);
     }
@@ -51,7 +77,7 @@ class SongControllers {
       let result = await song.update(
         {
           name,
-  
+
           duration,
           album,
           image,
@@ -73,20 +99,27 @@ class SongControllers {
     try {
       const id = +req.params.id;
       const { name, duration, album, image } = req.body;
-      let resSong = await song.create(
-        {
-          name,
-          artistId : id,
-          duration,
-          album,
-          image,
-        }
-      );
-       let resSongArtist = await songArtist.create({
+      let resSong = await song.create({
+        name,
+        artistId: id,
+        duration,
+        album,
+        image,
+      });
+      let resSongArtist = await songArtist.create({
         artistId: id,
         songId: resSong.id,
       });
-      res.json(resSong);
+      let deleteId = await song.destroy({
+        where: { id },
+      });
+      const accept = req.get("Accept");
+      if (accept && accept.includes("text/html")) {
+        res.redirect("/song");
+      } else {
+        res.json(resSong);
+      }
+      // res.json(resSong);
     } catch (error) {
       res.json(error);
     }
@@ -99,10 +132,12 @@ class SongControllers {
       let result = await song.findAll({
         where: { id },
       });
-      // res.render("../views/brand/editbrand.ejs", { brand: result });
+      res.render("../views/song/addSongs.ejs", { songs: result });
     } catch (error) {
       res.json(error);
     }
+
+    // res.render("../views/song/addSongs.ejs");
   }
 
   static updatePage(req, res) {}

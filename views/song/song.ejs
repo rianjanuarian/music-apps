@@ -111,13 +111,13 @@
         <div class="container">
             <div class="row justify-content-center pb-5 mb-3">
                 <div class="col-md-7 heading-section text-center ftco-animate fadeInUp ftco-animated">
-                    <h2>Artist</h2>
-                    <a href="/artist" type="button" class="btn btn-primary btn-lg">Add data<a></a>
+                    <h2>Songs Page</h2>
+                   
                 </div>
             </div>                    
        
             <div class="row">
-                <% resSong.forEach((e,index) => { %> 
+                <% songs.forEach((e,index) => { %> 
                 <div class="col-md-4 ftco-animate fadeInUp ftco-animated">
             
                     <div class="block-7">
@@ -134,8 +134,14 @@
                                     
                              
                                     <%  })  %> 
+
+                                 <br>
+                                         <a href="/song/create/<%= e.id %>" class="btn btn-primary d-block px-2 py-3">Add Songs</a>
+                                        <br>
+                                         <a href="/song/deletepage/<%= e.id %>" class="btn btn-primary d-block px-2 py-3">Delete Songs</a>
                                 </ul>
-                                <a href="/artist/<%= e.artistId %>/song" class="btn btn-primary d-block px-2 py-3">More Info</a>
+                                
+                               
                             </div>
                           
                        

@@ -41,11 +41,7 @@ module.exports = (sequelize, DataTypes) => {
       image: DataTypes.STRING,
     },
     {
-      hooks:{
-        beforeCreate: function(user,option){
-          user.image = "https://media.discordapp.net/attachments/1076057192945434624/1156221296691126344/avatars-000312484264-af28qp-t500x500.png?ex=65142e7e&is=6512dcfe&hm=f5edb803863a04793255a0ce3e6a451207d8984cca18f76716d0f887d18fe567&="
-        }
-      },
+      
       sequelize,
       modelName: "song",
     }
