@@ -38,7 +38,7 @@
  * @swagger
  * tags:
  *   name: Index
- *   description: Index managing API
+ *   description: list of artist with their songs API
  * :
  *  get:
  *     summary: the list of index
