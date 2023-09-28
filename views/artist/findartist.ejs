@@ -18,6 +18,12 @@
         text-align: center;
         color: white;
       }
+      .genre {
+        
+       text-align: center
+        ;
+        
+      }
       ul {
         padding: 4px;
         margin: 0;
@@ -46,8 +52,14 @@
     <section class="container">
       <img src="<%= resSongArtist.image %>" style="width: 50%" />
       <div class="centered" ><%= resSongArtist.name.charAt(0).toUpperCase() + resSongArtist.name.slice(1); %></div>
+      
     </section>
     <br />
+
+    <div class="genre">
+      <h3>Genre : <%= resSongArtist.genre %></h3>
+    </div>
+    
     <section class="container">
       <table class="table table-bordered">
         <thead>
