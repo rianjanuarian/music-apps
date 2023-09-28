@@ -19,27 +19,11 @@ class SongControllers {
     }
   }
 
-  // static async create(req, res) {
-  //   try {
-  //     const { name, artistId, duration, album, image } = req.body;
-  //     let resSong = await song.create({
-  //       name,
-  //       artistId,
-  //       duration,
-  //       album,
-  //       image,
-  //     });
-  //     res.json(resSong);
-  //   } catch (error) {
-  //     res.json(error);
-  //   }
-  // }
-
   static async deletePage(req, res) {
     try {
       const id = +req.params.id;
       let result = await artist.findAll({
-       where : {id},
+        where: { id },
         include: [song],
 
         order: [["id", "asc"]],
@@ -59,46 +43,40 @@ class SongControllers {
   static async delete(req, res) {
     try {
       const id = +req.params.id;
+      song.beforeDestroy((user, options) => {
+        console.log("Deleteing song name :", user.name);
+      });
+      song.afterDestroy((user, options) => {
+        console.log("Delete successfully created with ID :", user.id);
+      });
       let result = await song.destroy({
         where: {
           id,
         },
       });
-      res.redirect("/song");
+      const accept = req.get("Accept");
+      if (accept && accept.includes("text/html")) {
+        res.redirect("/song");
+      } else {
+        result === 1
+          ? res.json(`${id} successfully deleted`)
+          : res.json(`${id} error delete`);
+      }
     } catch (error) {
       res.json(error);
     }
   }
 
-  static async update(req, res) {
-    try {
-      const id = +req.params.id;
-      const { name, duration, album, image } = req.body;
-      let result = await song.update(
-        {
-          name,
-
-          duration,
-          album,
-          image,
-        },
-        {
-          where: {
-            id,
-          },
-        }
-      );
-      result[0] === 1
-        ? res.json(`${id} has been updated`)
-        : res.json(`${id} has not been updated`);
-    } catch (error) {
-      res.json(error);
-    }
-  }
   static async createArtist(req, res) {
     try {
       const id = +req.params.id;
       const { name, duration, album, image } = req.body;
+      song.beforeCreate((user, options) => {
+        console.log("Creating song name :", user.name);
+      });
+      song.afterCreate((user, options) => {
+        console.log("Artist successfully created with ID :", user.id);
+      });
       let resSong = await song.create({
         name,
         artistId: id,
@@ -110,13 +88,14 @@ class SongControllers {
         artistId: id,
         songId: resSong.id,
       });
-      let deleteId = await song.destroy({
-        where: { id },
-      });
+      // let deleteId = await song.destroy({
+      //   where: { id },
+      // });
       const accept = req.get("Accept");
       if (accept && accept.includes("text/html")) {
         res.redirect("/song");
       } else {
+        
         res.json(resSong);
       }
       // res.json(resSong);
@@ -140,7 +119,7 @@ class SongControllers {
     // res.render("../views/song/addSongs.ejs");
   }
 
-  static updatePage(req, res) {}
+  // static updatePage(req, res) {}
 }
 
 module.exports = SongControllers;

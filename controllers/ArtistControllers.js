@@ -3,7 +3,6 @@ class ArtistControllers {
   static async getData(req, res) {
     try {
       let result = await artist.findAll({
-       
         order: [["id", "asc"]],
       });
       const accept = req.get("Accept");
@@ -19,13 +18,13 @@ class ArtistControllers {
 
   static async create(req, res) {
     try {
-      artist.beforeCreate((user, options) => {
-        console.log("Creating artist name :", user.name);
-      });
-      artist.afterCreate((user, options) => {
-        console.log("Artist successfully created with ID :", user.id);
-      });
       const { name, genre, image } = req.body;
+      artist.beforeDestroy((user, options) => {
+        console.log("Deleteing artist name :", user.name);
+      });
+      artist.afterDestroy((user, options) => {
+        console.log("Delete successfully created with ID :", user.id);
+      });
       let resArtist = await artist.create({
         name,
         genre,
@@ -49,15 +48,30 @@ class ArtistControllers {
   static async delete(req, res) {
     try {
       const id = +req.params.id;
+      artist.beforeCreate((user, options) => {
+        console.log("Creating artist name :", user.name);
+      });
+      artist.afterCreate((user, options) => {
+        console.log("Artist successfully created with ID :", user.id);
+      });
       let resArtist = await artist.destroy({
         where: { id },
       });
+      let resJunct = await songArtist.destroy({
+        where: { artistId: id },
+      });
 
+      let resSong = await song.destroy({
+        where: { artistId: id },
+      });
       const accept = req.get("Accept");
       if (accept && accept.includes("text/html")) {
         res.redirect("/artist");
       } else {
-        res.json(resArtist);
+        resArtist === 1
+        ? res.json(`${id} successfully deleted`)
+        : res.json(`${id} error delete`);
+        
       }
     } catch (error) {
       res.json(error);
@@ -82,7 +96,10 @@ class ArtistControllers {
       if (accept && accept.includes("text/html")) {
         res.redirect("/artist");
       } else {
-        res.json(resArtist);
+             resArtist[0] === 1
+        ? res.json(`${id} has been updated`)
+        : res.json(`${id} has not been updated`);
+   
       }
     } catch (error) {
       res.json(error);

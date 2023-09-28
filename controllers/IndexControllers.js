@@ -34,6 +34,7 @@ class IndexControllers {
       } else {
         res.json(resSong);
       }
+    
       // res.render("index.ejs", { resSong });
     } catch (error) {
       res.json(error);
