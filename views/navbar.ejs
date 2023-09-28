@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+<!-- <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
     <a class="navbar-brand" href="/">Music Web</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -17,4 +17,73 @@
        
       </ul>
     </div>
-  </nav>
+  </nav> -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      .navbar-scroll .nav-link,
+      .navbar-scroll .navbar-toggler-icon,
+      .navbar-scroll .navbar-brand {
+        color: #262626;
+      }
+
+      .navbar-scroll {
+        background-color: #c8fd09;
+      }
+
+      .navbar-scrolled .nav-link,
+      .navbar-scrolled .navbar-toggler-icon,
+      .navbar-scroll .navbar-brand {
+        color: #262626;
+      }
+
+      .navbar-scrolled {
+        background-color: #fff;
+      }
+
+      .navbar.navbar-scroll.navbar-scrolled {
+        padding-top: auto;
+        padding-bottom: auto;
+      }
+      .navbar-brand {
+        font-size: 30px;
+        height: 3.5rem;
+      }
+    </style>
+    
+  </head>
+  <body>
+
+<nav class="navbar navbar-expand-lg navbar-scroll fixed-top shadow-0 border-bottom border-dark">
+  <div class="container">
+    <a class="navbar-brand" href="/"><i class="fab fa-mdb fa-4x">Songs App</i></a>
+    <!-- <button type="button" class="btn btn-dark ms-3">Songs App</button> -->
+    <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
+      data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+      aria-label="Toggle navigation">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/artist">Artist</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/song">Songs</a>
+        </li>
+       
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<br>
+<br>
+<br>
+
+  </body>
+</html>
