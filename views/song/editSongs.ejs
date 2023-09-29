@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Brand</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+
+<body>
+
+  <div class="container">
+    <h2>Edit Song Page</h2>
+    <br>
+    <form name="form" action="<%= songs.id %>" method="post" onsubmit="return cekForm()">
+      <div class="mb-3">
+        <label for="" class="form-label">Song Title</label>
+        <input type="text" name="name" id="cname" value="<%= songs.name %>" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label for="" class="form-label">Duration</label>
+        <input type="number" name="duration" id="cduration" value="<%= songs.duration %>" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label for="" class="form-label">Album</label>
+        <input type="text" name="album" id="calbum" value="<%= songs.album %>" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label for="" class="form-label">Image Link</label>
+        <input type="text" name="image" id="cimage" value="<%= songs.image %>" class="form-control">
+      </div>
+    
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+
+  <script>
+    function cekForm() {
+      const nama = document.forms["form"]["cname"].value;
+      const album = document.forms["form"]["calbum"].value;
+      const duration = document.forms["form"]["cduration"].value;
+      const image = document.forms["form"]["cimage"].value;
+
+
+      if (nama == "" || album == "" || duration == "" || image == "" ) {
+        alert("Please insert all column");
+        return false;
+      } else {
+        alert("update success")
+      }
+    }
+  </script>
+</body>
+
+</html>

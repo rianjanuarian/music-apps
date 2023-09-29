@@ -119,7 +119,46 @@ class SongControllers {
     // res.render("../views/song/addSongs.ejs");
   }
 
-  // static updatePage(req, res) {}
+  static async updatePage(req, res) {
+    try {
+      const id = +req.params.id;
+      let result = await song.findAll({
+        where: { id },
+      });
+      res.render("../views/song/editsongs.ejs", { songs: result });
+    } catch (error) {
+      res.json(error);
+    }
+  
+  }
+  static async update(req, res) {
+    try {
+      const id = +req.params.id;
+      const { name, duration,album, image } = req.body;
+      let resSong = await song.update(
+        {
+          name,
+          duration,
+          album,
+          image,
+        },
+        {
+          where: { id },
+        }
+      );
+      const accept = req.get("Accept");
+      if (accept && accept.includes("text/html")) {
+        res.redirect("/song");
+      } else {
+             resSong[0] === 1
+        ? res.json(`${id} has been updated`)
+        : res.json(`${id} has not been updated`);
+   
+      }
+    } catch (error) {
+      res.json(error);
+    }
+  }
 }
 
 module.exports = SongControllers;

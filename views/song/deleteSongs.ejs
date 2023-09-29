@@ -16,7 +16,7 @@
     <br>
     <div class="container">
     
-    <h2>Delete Songs Page</h2>
+    <h2>Edit Songs Page</h2>
         <table class="table table-hover">
             <thead>
               <tr>
@@ -24,7 +24,7 @@
                 <th scope="col">Image</th>
                 <th scope="col">Name</th>
                 <th scope="col">Album</th>
-             
+                <th scope="col">Duration</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
@@ -38,17 +38,11 @@
                             <td><img src="<%= el.image %>" height="100px" width="100px" /></td>
                             <td><%= el.name %></td>
                             <td><%= el.album %></td>
+                            <td><%= el.duration %> Min</td>
                             <td><a href="/song/delete/<%= el.id %>" type="button"  onclick="deleteAlert(`<%= el.name %>`)" class="btn btn-outline-primary">Delete</a>
-
+                              <a href="/song/update/<%= el.id %>" type="button" class="btn btn-outline-primary">Update</a>
                               </td>
-                            <%  }) %>
-                    
-
-                   
-                    <!-- <td><%= e.age %></td>
-                    <td><%= e.city %></td> -->
-                    
-                    
+                            <%  }) %>           
                     <%  })  %> 
                     
                 </tr>
